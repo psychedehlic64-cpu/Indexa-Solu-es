@@ -74,10 +74,22 @@ const navItems = [
     <nav class="site-nav" aria-label="Navegação principal">
       {navItems.map((item) => (
         <div class:list={["site-nav__item", item.children && "site-nav__item--has-menu"]}>
-          <a class="site-nav__link" href={item.href}>
-            <span>{item.label}</span>
-            {item.children && <i aria-hidden="true"></i>}
-          </a>
+          {item.children ? (
+            <>
+              <a class="site-nav__link site-nav__link--desktop" href={item.href}>
+                <span>{item.label}</span>
+                <i aria-hidden="true"></i>
+              </a>
+              <button class="site-nav__link site-nav__toggle" type="button" aria-expanded="false">
+                <span>{item.label}</span>
+                <i aria-hidden="true"></i>
+              </button>
+            </>
+          ) : (
+            <a class="site-nav__link" href={item.href}>
+              <span>{item.label}</span>
+            </a>
+          )}
           {item.children && (
             <div class="site-nav__panel">
               <div class="site-nav__panel-head">
@@ -121,6 +133,7 @@ const navItems = [
 <script>
   const header = document.querySelector("[data-site-header]");
   const mobileMenuButton = document.querySelector("[data-mobile-menu-button]");
+  const mobileSubmenuToggles = header?.querySelectorAll(".site-nav__toggle");
 
   function updateHeaderState() {
     header?.classList.toggle("is-scrolled", window.scrollY > 12);
@@ -139,6 +152,14 @@ const navItems = [
     const isOpen = header?.classList.toggle("is-menu-open") ?? false;
     mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
     mobileMenuButton.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
+  });
+
+  mobileSubmenuToggles?.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const item = toggle.closest(".site-nav__item");
+      const isOpen = item?.classList.toggle("is-submenu-open") ?? false;
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    });
   });
 
   header?.querySelectorAll("a").forEach((link) => {

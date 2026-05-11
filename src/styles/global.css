@@ -244,6 +244,14 @@ a:focus-visible {
   transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
+.site-nav__toggle {
+  display: none;
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
 .site-nav__link::before {
   content: "";
   position: absolute;
@@ -1530,6 +1538,14 @@ a:focus-visible {
     display: grid;
   }
 
+  .site-nav__link--desktop {
+    display: none;
+  }
+
+  .site-nav__toggle {
+    display: inline-flex;
+  }
+
   .site-nav__link {
     min-height: 48px;
     justify-content: space-between;
@@ -1539,20 +1555,33 @@ a:focus-visible {
   }
 
   .site-nav__link i {
-    display: none;
+    display: block;
   }
 
   .site-nav__panel {
     position: static;
     width: 100%;
-    padding: 8px 0 0;
+    max-height: 0;
+    padding: 0;
     border: 0;
     background: transparent;
     box-shadow: none;
     opacity: 1;
-    pointer-events: auto;
+    pointer-events: none;
     transform: none !important;
+    overflow: hidden;
     backdrop-filter: none;
+    transition: max-height 220ms ease, padding 180ms ease;
+  }
+
+  .site-nav__item.is-submenu-open .site-nav__panel {
+    max-height: 720px;
+    padding: 8px 0 0;
+    pointer-events: auto;
+  }
+
+  .site-nav__item.is-submenu-open .site-nav__toggle i {
+    transform: translateY(1px) rotate(225deg);
   }
 
   .site-nav__panel::before,
