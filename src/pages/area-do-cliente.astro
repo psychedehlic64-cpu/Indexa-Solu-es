@@ -2,6 +2,9 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const googleClientId = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID ?? "";
+const basePath = import.meta.env.BASE_URL;
+const homeHref = basePath;
+const clientAreaHref = `${basePath}area-do-cliente`;
 ---
 
 <BaseLayout
@@ -11,7 +14,7 @@ const googleClientId = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID ?? "";
   <main class="client-login client-login--single">
     <section class="client-login__panel-only">
       <div class="login-card login-card--standalone" aria-label="Painel de acesso seguro">
-        <a class="login-card__back" href="/" aria-label="Voltar para o site principal">
+        <a class="login-card__back" href={homeHref} aria-label="Voltar para o site principal">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M15 18 9 12l6-6"></path>
           </svg>
@@ -54,7 +57,7 @@ const googleClientId = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID ?? "";
               <input type="checkbox" name="trustedDevice" />
               Dispositivo confiável
             </label>
-            <a href="/area-do-cliente">Recuperar acesso</a>
+            <a href={clientAreaHref}>Recuperar acesso</a>
           </div>
           <button class="button button--primary button--full" type="button">Entrar</button>
         </form>
