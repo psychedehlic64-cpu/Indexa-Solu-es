@@ -1,0 +1,260 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+
+const services = [
+  {
+    title: "Soluções empresariais",
+    text: "Implantação e organização de sistemas para financeiro, vendas, RH, atendimento e rotinas administrativas, reduzindo erros manuais e dando mais visão de gestão.",
+    tag: "01"
+  },
+  {
+    title: "Soluções tecnológicas",
+    text: "Infraestrutura, segurança de rede, nuvem, CRM, desenvolvimento de sistemas, sites, aplicativos, integrações e suporte técnico para transformar TI em eficiência operacional.",
+    tag: "02"
+  },
+  {
+    title: "Automações e inteligência artificial",
+    text: "Agentes, bots, fluxos automatizados e integrações por APIs para qualificar contatos, organizar informações e acelerar tarefas repetitivas.",
+    tag: "03"
+  },
+  {
+    title: "Terceirização qualificada",
+    text: "Apoio para estruturar equipes e operações com mão de obra especializada em áreas administrativas, tecnologia, logística, atendimento ou RH.",
+    tag: "04"
+  },
+  {
+    title: "Consultoria e estratégia",
+    text: "Análise externa do negócio para diagnosticar gargalos, riscos e oportunidades, propondo ações corretivas com foco em produtividade e crescimento.",
+    tag: "05"
+  }
+];
+
+const process = [
+  {
+    title: "Mapear",
+    text: "Entendemos dores, processos, ferramentas, pessoas envolvidas e impactos reais na operação."
+  },
+  {
+    title: "Priorizar",
+    text: "Definimos o que resolve mais rápido, o que reduz risco e o que aumenta produtividade primeiro."
+  },
+  {
+    title: "Implementar",
+    text: "Aplicamos tecnologia, consultoria, automação, sistemas ou equipe especializada conforme a necessidade."
+  },
+  {
+    title: "Medir",
+    text: "Acompanhamos evolução, ajustamos processos e transformamos melhoria em rotina."
+  }
+];
+
+const technologyLogos = [
+  { name: "Intel", slug: "intel" },
+  { name: "AMD", slug: "amd" },
+  {
+    name: "VS Code",
+    slug: "visualstudiocode",
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
+  },
+  {
+    name: "OpenAI Codex",
+    slug: "openai",
+    src: "https://cdn.simpleicons.org/openai/ffffff"
+  },
+  { name: "Claude Code", slug: "anthropic" },
+  { name: "PHP", slug: "php" },
+  { name: "C++", slug: "cplusplus" },
+  { name: "Electron", slug: "electron" },
+  { name: "Python", slug: "python" },
+  { name: "JavaScript", slug: "javascript" },
+  { name: "TypeScript", slug: "typescript" },
+  { name: "React", slug: "react" },
+  { name: "Astro", slug: "astro" },
+  { name: "Node.js", slug: "nodedotjs" },
+  { name: "Next.js", slug: "nextdotjs" },
+  { name: "Tailwind CSS", slug: "tailwindcss" },
+  { name: "Docker", slug: "docker" },
+  { name: "Cloudflare", slug: "cloudflare" },
+  { name: "Git", slug: "git" },
+  { name: "GitHub", slug: "github" },
+  { name: "PostgreSQL", slug: "postgresql" },
+  { name: "MySQL", slug: "mysql" },
+  { name: "MongoDB", slug: "mongodb" },
+  { name: "Linux", slug: "linux" },
+  { name: "Figma", slug: "figma" },
+  { name: "WordPress", slug: "wordpress" }
+];
+
+const technologyMarquee = [...technologyLogos, ...technologyLogos];
+---
+
+<BaseLayout
+  title="Indexa Soluções | Consultoria, tecnologia e soluções empresariais"
+  description="A Indexa Soluções atua como parceira estratégica para diagnosticar dores, otimizar processos e resolver problemas complexos de negócios com tecnologia, consultoria, automações, IA, sistemas e serviços personalizados."
+>
+  <Header />
+  <main>
+    <section class="hero section">
+      <div class="hero__location" aria-label="Localizacao e atendimento">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 21s7-5.1 7-12a7 7 0 0 0-14 0c0 6.9 7 12 7 12Z"></path>
+          <circle cx="12" cy="9" r="2.4"></circle>
+        </svg>
+        <span>Joinville, Santa Catarina</span>
+        <i aria-hidden="true"></i>
+        <span>Atendimento online nacional</span>
+      </div>
+      <div class="container hero__stage">
+        <h1 class="statement-heading">
+          <span>Problemas complexos.</span>
+          <span>Soluções sob medida.</span>
+        </h1>
+        <p class="hero__promise">A Indexa atua como parceira estratégica para diagnosticar dores, redesenhar processos e aplicar tecnologia onde ela realmente muda a operação.</p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#contato">Solicitar diagnóstico estratégico</a>
+          <a class="button button--ghost" href="#servicos">Conhecer atuações</a>
+        </div>
+      </div>
+      <div class="tech-marquee" aria-label="Tecnologias e plataformas utilizadas">
+        <div class="tech-marquee__label">
+          <span>Tecnologias que somos especialistas</span>
+          <i aria-hidden="true"></i>
+        </div>
+        <div class="tech-marquee__viewport">
+          <div class="tech-marquee__track">
+            {technologyMarquee.map((tech) => (
+              <div class="tech-logo">
+                <img
+                  src={tech.src ?? `https://cdn.simpleicons.org/${tech.slug}`}
+                  alt=""
+                  loading="lazy"
+                  width="28"
+                  height="28"
+                />
+                <span>{tech.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section service-section" id="servicos">
+      <div class="container service-section__grid">
+        <div class="section-kicker">
+          <p class="eyebrow">Principais atuações</p>
+          <h2>Da gestão à tecnologia, a solução começa entendendo onde a empresa perde tempo, dinheiro ou controle.</h2>
+        </div>
+        <div class="service-list">
+          {services.map((service) => (
+            <article class="service-item">
+              <span>{service.tag}</span>
+              <div>
+                <h3>{service.title}</h3>
+                <p>{service.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section google-section" id="tecnologia">
+      <div class="container google-section__grid">
+        <div class="google-card">
+          <span class="google-card__pin"></span>
+          <div>
+            <small>Eficiência operacional</small>
+            <strong>Processos, dados, sistemas e pessoas trabalhando na mesma direção.</strong>
+          </div>
+          <ul>
+            <li>ERP, CRM, RH, financeiro e vendas.</li>
+            <li>Segurança de rede, nuvem e suporte técnico.</li>
+            <li>IA, bots, agentes e integrações modulares por APIs.</li>
+          </ul>
+        </div>
+        <div class="section-kicker section-kicker--wide">
+          <p class="eyebrow">Tecnologia com estratégia</p>
+          <h2>O objetivo não é vender ferramenta. É resolver o problema certo com a ferramenta certa.</h2>
+          <p>
+            Cada empresa tem um gargalo diferente. Algumas precisam de gestão, outras de segurança, atendimento, automação, mão de obra qualificada ou integração entre sistemas. A Indexa conecta diagnóstico, tecnologia e execução para criar uma resposta prática.
+          </p>
+          <a class="text-link" href="#contato">Quero entender meu principal gargalo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intelligence-section" id="automacoes">
+      <div class="container intelligence-section__inner">
+        <div>
+          <p class="eyebrow eyebrow--hero">Produtividade e IA</p>
+          <h2>Fazer mais com menos esforço exige processo claro, dados confiáveis e tecnologia bem aplicada.</h2>
+        </div>
+        <div class="intelligence-panel">
+          <p>
+            Criamos automações, agentes e fluxos inteligentes para reduzir tarefas repetitivas, acelerar respostas, registrar informações, conectar sistemas e liberar pessoas para decisões mais importantes.
+          </p>
+          <a class="button button--light" href="#contato">Analisar oportunidades de automação</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section process-section" id="processo">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Método</p>
+          <h2>Uma solução forte nasce antes da tecnologia: nasce do diagnóstico correto.</h2>
+        </div>
+        <div class="process-timeline">
+          {process.map((item, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section security-section">
+      <div class="container security-section__grid">
+        <div class="section-kicker">
+          <p class="eyebrow">Benefícios</p>
+          <h2>Mais produtividade, menos ruído operacional e decisões com visão mais clara.</h2>
+        </div>
+        <div class="security-list">
+          <p>Ao unir consultoria, tecnologia e serviços personalizados, a Indexa ajuda empresas a corrigir falhas, reduzir retrabalho, modernizar ferramentas, proteger dados e transformar processos soltos em operações mais previsíveis.</p>
+          <div>
+            <span>Diagnóstico de dores</span>
+            <span>Produtividade</span>
+            <span>Olhar externo</span>
+            <span>IA e automações</span>
+            <span>Segurança</span>
+            <span>Sistemas modulares</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contato">
+      <div class="container contact-shell">
+        <div>
+          <p class="eyebrow eyebrow--hero">Próximo passo</p>
+          <h2>Vamos identificar o gargalo que mais custa tempo, dinheiro ou controle para sua empresa.</h2>
+          <p>
+            A conversa inicial é objetiva: entendemos a operação, levantamos oportunidades e indicamos o caminho mais sensato para começar.
+          </p>
+        </div>
+        <div class="contact-card">
+          <a class="button button--primary button--full" href="https://wa.me/" rel="noreferrer">Conversar pelo WhatsApp</a>
+          <a class="button button--light button--full" href="mailto:contato@indexasolucoes.com.br">Enviar email</a>
+          <p>WhatsApp e email finais serão atualizados após a definição dos canais oficiais.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

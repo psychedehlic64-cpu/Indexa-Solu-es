@@ -1,0 +1,178 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const googleClientId = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID ?? "";
+---
+
+<BaseLayout
+  title="Área do Cliente | Indexa Soluções"
+  description="Acesso seguro para clientes da Indexa Soluções."
+>
+  <main class="client-login client-login--single">
+    <section class="client-login__panel-only">
+      <div class="login-card login-card--standalone" aria-label="Painel de acesso seguro">
+        <a class="login-card__back" href="/" aria-label="Voltar para o site principal">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 18 9 12l6-6"></path>
+          </svg>
+          <span>Voltar ao site</span>
+        </a>
+        <div class="login-card__header">
+          <span>Acesso seguro</span>
+          <strong>Entrar no painel</strong>
+        </div>
+        <button class="login-card__google" type="button" data-google-login-button>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.4 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h5.3a4.5 4.5 0 0 1-1.9 2.9v2.4h3.1c1.8-1.7 2.9-4.1 2.9-7Z"></path>
+            <path d="M12 21.7c2.6 0 4.8-.9 6.4-2.4l-3.1-2.4c-.9.6-2 .9-3.3.9-2.5 0-4.6-1.7-5.4-4H3.4v2.5A9.7 9.7 0 0 0 12 21.7Z"></path>
+            <path d="M6.6 13.7a5.8 5.8 0 0 1 0-3.4V7.8H3.4a9.7 9.7 0 0 0 0 8.7l3.2-2.8Z"></path>
+            <path d="M12 6.2c1.4 0 2.7.5 3.7 1.5l2.8-2.8A9.4 9.4 0 0 0 12 2.3a9.7 9.7 0 0 0-8.6 5.5l3.2 2.5c.8-2.4 2.9-4.1 5.4-4.1Z"></path>
+          </svg>
+          <span>Entrar com Google</span>
+        </button>
+        <div class="login-card__google-status" data-google-status aria-live="polite" hidden></div>
+        <div class="login-card__profile" data-google-profile hidden>
+          <img src="" alt="" data-google-avatar />
+          <div>
+            <strong data-google-name></strong>
+            <span data-google-email></span>
+          </div>
+          <button type="button" data-google-logout>Sair</button>
+        </div>
+        <div class="login-card__divider"><span>ou</span></div>
+        <form class="login-card__form">
+          <label>
+            Email corporativo
+            <input type="email" name="email" autocomplete="email" placeholder="voce@empresa.com.br" />
+          </label>
+          <label>
+            Senha
+            <input type="password" name="password" autocomplete="current-password" placeholder="Digite sua senha" />
+          </label>
+          <div class="login-card__row">
+            <label class="login-card__check">
+              <input type="checkbox" name="trustedDevice" />
+              Dispositivo confiável
+            </label>
+            <a href="/area-do-cliente">Recuperar acesso</a>
+          </div>
+          <button class="button button--primary button--full" type="button">Entrar</button>
+        </form>
+        <p>Autenticação real será conectada na etapa de backend seguro.</p>
+      </div>
+    </section>
+  </main>
+  <script is:inline src="https://accounts.google.com/gsi/client" async defer></script>
+  <script is:inline define:vars={{ googleClientId }}>
+    const googleButton = document.querySelector("[data-google-login-button]");
+    const googleStatus = document.querySelector("[data-google-status]");
+    const googleProfile = document.querySelector("[data-google-profile]");
+    const googleAvatar = document.querySelector("[data-google-avatar]");
+    const googleName = document.querySelector("[data-google-name]");
+    const googleEmail = document.querySelector("[data-google-email]");
+    const googleLogout = document.querySelector("[data-google-logout]");
+    let tokenClient;
+
+    function setGoogleStatus(message, type = "info") {
+      if (!googleStatus) return;
+      googleStatus.hidden = false;
+      googleStatus.textContent = message;
+      googleStatus.dataset.type = type;
+    }
+
+    function clearGoogleStatus() {
+      if (!googleStatus) return;
+      googleStatus.hidden = true;
+      googleStatus.textContent = "";
+      delete googleStatus.dataset.type;
+    }
+
+    function showGoogleProfile(profile) {
+      if (!googleProfile || !googleAvatar || !googleName || !googleEmail) return;
+
+      googleAvatar.src = profile.picture ?? "";
+      googleAvatar.alt = profile.name ? `Foto de ${profile.name}` : "";
+      googleName.textContent = profile.name ?? "Conta Google conectada";
+      googleEmail.textContent = profile.email ?? "";
+      googleProfile.hidden = false;
+      sessionStorage.setItem("indexa_google_profile", JSON.stringify({
+        name: profile.name,
+        email: profile.email,
+        picture: profile.picture
+      }));
+      setGoogleStatus("Conta Google conectada com sucesso.", "success");
+    }
+
+    async function loadGoogleProfile(accessToken) {
+      const response = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Nao foi possivel carregar o perfil Google.");
+      }
+
+      return response.json();
+    }
+
+    function initializeGoogleLogin() {
+      if (!googleButton) return;
+
+      if (!googleClientId) {
+        googleButton.disabled = true;
+        setGoogleStatus("Configure PUBLIC_GOOGLE_CLIENT_ID para ativar o login com Google.", "warning");
+        return;
+      }
+
+      if (!window.google?.accounts?.oauth2) {
+        window.setTimeout(initializeGoogleLogin, 150);
+        return;
+      }
+
+      tokenClient = window.google.accounts.oauth2.initTokenClient({
+        client_id: googleClientId,
+        scope: "openid email profile",
+        prompt: "select_account",
+        callback: async (tokenResponse) => {
+          if (tokenResponse.error) {
+            setGoogleStatus("Login com Google cancelado ou recusado.", "warning");
+            return;
+          }
+
+          try {
+            setGoogleStatus("Validando conta Google...", "info");
+            const profile = await loadGoogleProfile(tokenResponse.access_token);
+            showGoogleProfile(profile);
+          } catch {
+            setGoogleStatus("Nao foi possivel concluir o login com Google.", "warning");
+          }
+        }
+      });
+
+      googleButton.disabled = false;
+      googleButton.addEventListener("click", () => {
+        clearGoogleStatus();
+        tokenClient.requestAccessToken();
+      });
+
+      const savedProfile = sessionStorage.getItem("indexa_google_profile");
+      if (savedProfile) {
+        try {
+          showGoogleProfile(JSON.parse(savedProfile));
+        } catch {
+          sessionStorage.removeItem("indexa_google_profile");
+        }
+      }
+    }
+
+    googleLogout?.addEventListener("click", () => {
+      sessionStorage.removeItem("indexa_google_profile");
+      googleProfile.hidden = true;
+      setGoogleStatus("Conta Google desconectada deste navegador.", "info");
+    });
+
+    initializeGoogleLogin();
+  </script>
+</BaseLayout>
