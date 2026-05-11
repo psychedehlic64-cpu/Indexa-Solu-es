@@ -37,6 +37,7 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: "true"
+          PUBLIC_GOOGLE_CLIENT_ID: ${{ vars.PUBLIC_GOOGLE_CLIENT_ID }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
