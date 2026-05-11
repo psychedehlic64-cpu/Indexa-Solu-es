@@ -1511,8 +1511,8 @@ a:focus-visible {
     overflow: auto;
     border-radius: var(--radius);
     background:
-      linear-gradient(135deg, rgba(212, 179, 106, 0.1), transparent 30%),
-      rgba(11, 16, 15, 0.96);
+      linear-gradient(135deg, rgba(28, 37, 34, 0.98), #0b100f 34%),
+      #0b100f;
     box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
     opacity: 0;
     pointer-events: none;
