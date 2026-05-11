@@ -5,6 +5,7 @@ const googleClientId = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID ?? "";
 const basePath = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const homeHref = basePath;
 const clientAreaHref = `${basePath}area-do-cliente`;
+const dashboardHref = `${basePath}painel-cliente`;
 ---
 
 <BaseLayout
@@ -66,7 +67,7 @@ const clientAreaHref = `${basePath}area-do-cliente`;
     </section>
   </main>
   <script is:inline src="https://accounts.google.com/gsi/client" async defer></script>
-  <script is:inline define:vars={{ googleClientId }}>
+  <script is:inline define:vars={{ googleClientId, dashboardHref }}>
     const googleButton = document.querySelector("[data-google-login-button]");
     const googleStatus = document.querySelector("[data-google-status]");
     const googleProfile = document.querySelector("[data-google-profile]");
@@ -104,6 +105,9 @@ const clientAreaHref = `${basePath}area-do-cliente`;
         picture: profile.picture
       }));
       setGoogleStatus("Conta Google conectada com sucesso.", "success");
+      window.setTimeout(() => {
+        window.location.href = dashboardHref;
+      }, 450);
     }
 
     async function loadGoogleProfile(accessToken) {

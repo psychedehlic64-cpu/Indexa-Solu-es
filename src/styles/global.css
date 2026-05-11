@@ -1338,6 +1338,304 @@ a:focus-visible {
   padding: 0 12px;
 }
 
+.client-dashboard {
+  min-height: 100vh;
+  background:
+    linear-gradient(120deg, rgba(212, 179, 106, 0.08), transparent 34%),
+    linear-gradient(300deg, rgba(15, 140, 127, 0.16), transparent 40%),
+    #0b100f;
+  color: var(--paper-2);
+}
+
+.client-dashboard__guard {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  color: rgba(251, 248, 240, 0.72);
+  font-weight: 900;
+}
+
+.client-dashboard__app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.client-dashboard__app[hidden] {
+  display: none;
+}
+
+.client-dashboard__sidebar {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  padding: 22px;
+  border-right: 1px solid rgba(251, 248, 240, 0.1);
+  background: rgba(11, 16, 15, 0.92);
+}
+
+.client-dashboard__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.client-dashboard__brand span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(212, 179, 106, 0.32);
+  border-radius: var(--radius);
+  background: rgba(212, 179, 106, 0.12);
+  color: #f2d58a;
+}
+
+.client-dashboard__nav {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.client-dashboard__nav a,
+.client-dashboard__logout,
+.client-dashboard__actions button {
+  border: 1px solid rgba(251, 248, 240, 0.1);
+  border-radius: 6px;
+  background: rgba(251, 248, 240, 0.045);
+  color: rgba(251, 248, 240, 0.74);
+  font: inherit;
+  font-weight: 850;
+}
+
+.client-dashboard__nav a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.client-dashboard__nav a.is-active,
+.client-dashboard__nav a:hover,
+.client-dashboard__nav a:focus-visible,
+.client-dashboard__logout:hover,
+.client-dashboard__logout:focus-visible,
+.client-dashboard__actions button:hover,
+.client-dashboard__actions button:focus-visible {
+  border-color: rgba(212, 179, 106, 0.28);
+  background: rgba(212, 179, 106, 0.1);
+  color: #ffffff;
+}
+
+.client-dashboard__logout {
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.client-dashboard__main {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  width: min(100% - 44px, 1180px);
+  margin-inline: auto;
+  padding: 32px 0;
+}
+
+.client-dashboard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid rgba(251, 248, 240, 0.1);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(15, 140, 127, 0.16), transparent 42%),
+    rgba(251, 248, 240, 0.055);
+}
+
+.client-dashboard__header span,
+.client-dashboard__panel-head span {
+  color: #f2d58a;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.client-dashboard__header h1 {
+  margin: 6px 0 8px;
+  font-size: 2.55rem;
+  line-height: 1;
+}
+
+.client-dashboard__header p,
+.client-dashboard__panel p {
+  margin-bottom: 0;
+  color: rgba(251, 248, 240, 0.66);
+  font-weight: 750;
+}
+
+.client-dashboard__profile {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-width: 260px;
+  padding: 10px;
+  border: 1px solid rgba(251, 248, 240, 0.1);
+  border-radius: 6px;
+  background: rgba(11, 16, 15, 0.42);
+}
+
+.client-dashboard__profile img {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: rgba(251, 248, 240, 0.08);
+}
+
+.client-dashboard__profile strong,
+.client-dashboard__profile span {
+  display: block;
+}
+
+.client-dashboard__profile span {
+  color: rgba(251, 248, 240, 0.58);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.client-dashboard__metrics,
+.client-dashboard__actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.client-dashboard__metrics article,
+.client-dashboard__panel {
+  border: 1px solid rgba(251, 248, 240, 0.1);
+  border-radius: var(--radius);
+  background: rgba(251, 248, 240, 0.055);
+}
+
+.client-dashboard__metrics article {
+  min-height: 132px;
+  padding: 18px;
+}
+
+.client-dashboard__metrics strong {
+  display: block;
+  color: #f2d58a;
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.client-dashboard__metrics span,
+.client-dashboard__metrics small {
+  display: block;
+}
+
+.client-dashboard__metrics span {
+  margin-top: 10px;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.client-dashboard__metrics small {
+  margin-top: 4px;
+  color: rgba(251, 248, 240, 0.55);
+  font-weight: 750;
+}
+
+.client-dashboard__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 12px;
+}
+
+.client-dashboard__panel {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 18px;
+}
+
+.client-dashboard__panel-head {
+  display: grid;
+  gap: 4px;
+}
+
+.client-dashboard__panel-head strong {
+  color: #ffffff;
+  font-size: 1.24rem;
+}
+
+.client-dashboard__project-list,
+.client-dashboard__ticket-list {
+  display: grid;
+  gap: 10px;
+}
+
+.client-dashboard__project-list article,
+.client-dashboard__ticket-list article {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(251, 248, 240, 0.09);
+  border-radius: 6px;
+  background: rgba(11, 16, 15, 0.38);
+  overflow: hidden;
+}
+
+.client-dashboard__project-list article {
+  grid-template-columns: 1fr auto;
+}
+
+.client-dashboard__project-list strong,
+.client-dashboard__ticket-list span {
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.client-dashboard__project-list span {
+  display: block;
+  color: rgba(251, 248, 240, 0.58);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.client-dashboard__project-list small,
+.client-dashboard__ticket-list small {
+  color: #f2d58a;
+  font-weight: 900;
+}
+
+.client-dashboard__project-list i {
+  grid-column: 1 / -1;
+  height: 6px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, var(--brass) var(--progress), rgba(251, 248, 240, 0.1) 0);
+}
+
+.client-dashboard__ticket-list article {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.client-dashboard__actions button {
+  min-height: 54px;
+  cursor: pointer;
+}
+
 .site-footer {
   padding: 72px 0 30px;
   background: #0c1110;
@@ -1685,6 +1983,59 @@ a:focus-visible {
 
   .client-login__panel-only {
     width: min(100% - 28px, 420px);
+  }
+
+  .client-dashboard__app {
+    grid-template-columns: 1fr;
+  }
+
+  .client-dashboard__sidebar {
+    position: static;
+    min-height: auto;
+    padding: 14px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(251, 248, 240, 0.1);
+  }
+
+  .client-dashboard__brand {
+    margin-bottom: 14px;
+  }
+
+  .client-dashboard__nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .client-dashboard__logout {
+    margin-top: 12px;
+  }
+
+  .client-dashboard__main {
+    width: min(100% - 28px, 1180px);
+    padding: 20px 0;
+  }
+
+  .client-dashboard__header {
+    display: grid;
+    padding: 18px;
+  }
+
+  .client-dashboard__header h1 {
+    font-size: 2rem;
+  }
+
+  .client-dashboard__profile {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .client-dashboard__metrics,
+  .client-dashboard__grid,
+  .client-dashboard__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .client-dashboard__metrics article {
+    min-height: 110px;
   }
 
   .login-card--standalone {

@@ -1,0 +1,182 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const basePath = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const loginHref = `${basePath}area-do-cliente`;
+const homeHref = basePath;
+
+const metrics = [
+  { label: "Projetos ativos", value: "04", note: "2 em execução" },
+  { label: "Chamados", value: "02", note: "1 aguardando resposta" },
+  { label: "Arquivos", value: "18", note: "último envio hoje" },
+  { label: "Faturas", value: "03", note: "1 em aberto" }
+];
+
+const projects = [
+  { title: "Website institucional", status: "Em desenvolvimento", progress: "72%" },
+  { title: "Google Meu Negócio", status: "Otimização ativa", progress: "48%" },
+  { title: "Chat bot comercial", status: "Mapeamento", progress: "26%" }
+];
+
+const tickets = [
+  { title: "Ajuste de textos da home", tag: "Aberto" },
+  { title: "Configuração de domínio", tag: "Em análise" },
+  { title: "Revisão de acessos", tag: "Resolvido" }
+];
+
+const actions = [
+  "Abrir novo chamado",
+  "Enviar arquivos",
+  "Ver contratos",
+  "Solicitar reunião"
+];
+---
+
+<BaseLayout
+  title="Painel do Cliente | Indexa Soluções"
+  description="Painel do cliente da Indexa Soluções para acompanhamento de projetos, chamados, arquivos e financeiro."
+>
+  <main class="client-dashboard" data-client-dashboard data-login-href={loginHref}>
+    <div class="client-dashboard__guard" data-dashboard-guard>
+      Verificando acesso seguro...
+    </div>
+
+    <section class="client-dashboard__app" data-dashboard-app hidden>
+      <aside class="client-dashboard__sidebar">
+        <a class="client-dashboard__brand" href={homeHref}>
+          <span>IS</span>
+          <strong>Indexa OS</strong>
+        </a>
+        <nav class="client-dashboard__nav" aria-label="Navegação do painel">
+          <a href="#visao-geral" class="is-active">Visão geral</a>
+          <a href="#projetos">Projetos</a>
+          <a href="#chamados">Chamados</a>
+          <a href="#arquivos">Arquivos</a>
+          <a href="#financeiro">Financeiro</a>
+          <a href="#mensagens">Mensagens</a>
+        </nav>
+        <button class="client-dashboard__logout" type="button" data-dashboard-logout>Sair do painel</button>
+      </aside>
+
+      <section class="client-dashboard__main">
+        <header class="client-dashboard__header" id="visao-geral">
+          <div>
+            <span>Área do Cliente</span>
+            <h1>Olá, <strong data-dashboard-name>cliente</strong>.</h1>
+            <p>Acompanhe solicitações, entregas e próximos passos em um só lugar.</p>
+          </div>
+          <div class="client-dashboard__profile">
+            <img src="" alt="" data-dashboard-avatar />
+            <div>
+              <strong data-dashboard-profile-name>Conta conectada</strong>
+              <span data-dashboard-email></span>
+            </div>
+          </div>
+        </header>
+
+        <div class="client-dashboard__metrics">
+          {metrics.map((metric) => (
+            <article>
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
+              <small>{metric.note}</small>
+            </article>
+          ))}
+        </div>
+
+        <div class="client-dashboard__grid">
+          <section class="client-dashboard__panel" id="projetos">
+            <div class="client-dashboard__panel-head">
+              <span>Projetos</span>
+              <strong>Acompanhamento</strong>
+            </div>
+            <div class="client-dashboard__project-list">
+              {projects.map((project) => (
+                <article>
+                  <div>
+                    <strong>{project.title}</strong>
+                    <span>{project.status}</span>
+                  </div>
+                  <small>{project.progress}</small>
+                  <i style={`--progress: ${project.progress}`}></i>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="client-dashboard__panel" id="chamados">
+            <div class="client-dashboard__panel-head">
+              <span>Suporte</span>
+              <strong>Chamados recentes</strong>
+            </div>
+            <div class="client-dashboard__ticket-list">
+              {tickets.map((ticket) => (
+                <article>
+                  <span>{ticket.title}</span>
+                  <small>{ticket.tag}</small>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="client-dashboard__panel" id="arquivos">
+            <div class="client-dashboard__panel-head">
+              <span>Documentos</span>
+              <strong>Arquivos e entregáveis</strong>
+            </div>
+            <p>Contratos, propostas, relatórios e materiais finais aparecerão aqui quando o backend seguro estiver conectado.</p>
+          </section>
+
+          <section class="client-dashboard__panel" id="financeiro">
+            <div class="client-dashboard__panel-head">
+              <span>Financeiro</span>
+              <strong>Faturas e recibos</strong>
+            </div>
+            <p>Acompanhe cobranças, vencimentos, recibos e histórico financeiro da sua empresa.</p>
+          </section>
+        </div>
+
+        <section class="client-dashboard__actions" id="mensagens">
+          {actions.map((action) => (
+            <button type="button">{action}</button>
+          ))}
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ loginHref }}>
+    const storedProfile = sessionStorage.getItem("indexa_google_profile");
+    const guard = document.querySelector("[data-dashboard-guard]");
+    const app = document.querySelector("[data-dashboard-app]");
+    const logout = document.querySelector("[data-dashboard-logout]");
+
+    if (!storedProfile) {
+      window.location.replace(loginHref);
+    } else {
+      try {
+        const profile = JSON.parse(storedProfile);
+        const firstName = (profile.name ?? "cliente").split(" ")[0];
+
+        document.querySelector("[data-dashboard-name]").textContent = firstName;
+        document.querySelector("[data-dashboard-profile-name]").textContent = profile.name ?? "Conta Google";
+        document.querySelector("[data-dashboard-email]").textContent = profile.email ?? "";
+
+        const avatar = document.querySelector("[data-dashboard-avatar]");
+        avatar.src = profile.picture ?? "";
+        avatar.alt = profile.name ? `Foto de ${profile.name}` : "";
+
+        guard.hidden = true;
+        app.hidden = false;
+      } catch {
+        sessionStorage.removeItem("indexa_google_profile");
+        window.location.replace(loginHref);
+      }
+    }
+
+    logout?.addEventListener("click", () => {
+      sessionStorage.removeItem("indexa_google_profile");
+      window.location.href = loginHref;
+    });
+  </script>
+</BaseLayout>
