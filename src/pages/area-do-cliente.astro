@@ -104,6 +104,7 @@ const dashboardHref = `${basePath}painel-cliente`;
         email: profile.email,
         picture: profile.picture
       }));
+      sessionStorage.setItem("indexa_client_authenticated", "true");
       setGoogleStatus("Conta Google conectada com sucesso.", "success");
       window.setTimeout(() => {
         window.location.href = dashboardHref;
@@ -176,6 +177,7 @@ const dashboardHref = `${basePath}painel-cliente`;
 
     googleLogout?.addEventListener("click", () => {
       sessionStorage.removeItem("indexa_google_profile");
+      sessionStorage.removeItem("indexa_client_authenticated");
       googleProfile.hidden = true;
       setGoogleStatus("Conta Google desconectada deste navegador.", "info");
     });

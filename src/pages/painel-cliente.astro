@@ -147,35 +147,48 @@ const actions = [
 
   <script is:inline define:vars={{ loginHref }}>
     const storedProfile = sessionStorage.getItem("indexa_google_profile");
+    const isAuthenticated = sessionStorage.getItem("indexa_client_authenticated") === "true";
     const guard = document.querySelector("[data-dashboard-guard]");
     const app = document.querySelector("[data-dashboard-app]");
     const logout = document.querySelector("[data-dashboard-logout]");
 
-    if (!storedProfile) {
+    function openDashboard(profile = {}) {
+      const name = profile.name || "Cliente Indexa";
+      const firstName = name.split(" ")[0] || "cliente";
+      const email = profile.email || "Conta Google conectada";
+      const picture = profile.picture || "";
+      const nameTarget = document.querySelector("[data-dashboard-name]");
+      const profileNameTarget = document.querySelector("[data-dashboard-profile-name]");
+      const emailTarget = document.querySelector("[data-dashboard-email]");
+      const avatar = document.querySelector("[data-dashboard-avatar]");
+
+      if (nameTarget) nameTarget.textContent = firstName;
+      if (profileNameTarget) profileNameTarget.textContent = name;
+      if (emailTarget) emailTarget.textContent = email;
+
+      if (avatar) {
+        avatar.src = picture;
+        avatar.alt = picture ? `Foto de ${name}` : "";
+        avatar.hidden = !picture;
+      }
+
+      if (guard) guard.remove();
+      if (app) app.hidden = false;
+    }
+
+    if (!storedProfile && !isAuthenticated) {
       window.location.replace(loginHref);
     } else {
       try {
-        const profile = JSON.parse(storedProfile);
-        const firstName = (profile.name ?? "cliente").split(" ")[0];
-
-        document.querySelector("[data-dashboard-name]").textContent = firstName;
-        document.querySelector("[data-dashboard-profile-name]").textContent = profile.name ?? "Conta Google";
-        document.querySelector("[data-dashboard-email]").textContent = profile.email ?? "";
-
-        const avatar = document.querySelector("[data-dashboard-avatar]");
-        avatar.src = profile.picture ?? "";
-        avatar.alt = profile.name ? `Foto de ${profile.name}` : "";
-
-        guard.hidden = true;
-        app.hidden = false;
+        openDashboard(storedProfile ? JSON.parse(storedProfile) : {});
       } catch {
-        sessionStorage.removeItem("indexa_google_profile");
-        window.location.replace(loginHref);
+        openDashboard({});
       }
     }
 
     logout?.addEventListener("click", () => {
       sessionStorage.removeItem("indexa_google_profile");
+      sessionStorage.removeItem("indexa_client_authenticated");
       window.location.href = loginHref;
     });
   </script>
